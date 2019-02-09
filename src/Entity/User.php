@@ -82,6 +82,11 @@ class User implements UserInterface
      */
     private $ads;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Role", mappedBy="users")
+     */
+    private $userRoles;
+
     public function getFullName() {
         return "{$this->firstName} {$this->lastName}";
     }
@@ -100,6 +105,7 @@ class User implements UserInterface
     public function __construct()
     {
         $this->ads = new ArrayCollection();
+        $this->userRoles = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -233,10 +239,23 @@ class User implements UserInterface
 
         return $this;
     }
-    //5 function obligatoires 
+    //5 function obligatoires a mettre pour implementer la class User (UserInterface)
     
     public function getRoles() {
-        return ['ROLE_USER'];
+        //pour voir les methodes arrayCollection sur google
+        $roles = $this->userRoles->toArray(); //transformer en tableau
+        //dump($roles); //on peut voir le dump au moment de se connecter
+        
+        // avoir juste le titre des roles
+        $roles = $this->userRoles->map(function($role) {
+            return $role->getTitle();
+        })->toArray();
+
+        //dump($role);
+        $roles[] = 'ROLE_USER';
+        //dump($roles);
+
+        return $roles;
     }
 
     public function getPassword() {
@@ -248,4 +267,32 @@ class User implements UserInterface
         return $this->email;
     }
     public function eraseCredentials() {}
+
+    /**
+     * @return Collection|Role[]
+     */
+    public function getUserRoles(): Collection
+    {
+        return $this->userRoles;
+    }
+
+    public function addUserRole(Role $userRole): self
+    {
+        if (!$this->userRoles->contains($userRole)) {
+            $this->userRoles[] = $userRole;
+            $userRole->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserRole(Role $userRole): self
+    {
+        if ($this->userRoles->contains($userRole)) {
+            $this->userRoles->removeElement($userRole);
+            $userRole->removeUser($this);
+        }
+
+        return $this;
+    }
 }
