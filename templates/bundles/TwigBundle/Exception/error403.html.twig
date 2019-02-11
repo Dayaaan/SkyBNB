@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+{# Pour tester ma page "/_error/403" #}
+{% block title %} Page non trouvée {% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Alors ? vous essayez de bousiller le site ?!</h1>
+        <div class="alert alert-danger">
+            <p>Vous n'avez pas le droit d'accéder à cette ressource !</p>
+        </div>
+        <a href="{{path('homepage')}}" class="btn btn-primary">Retour a l'accueil</a>
+    </div>
+{% endblock %}
