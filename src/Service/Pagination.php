@@ -48,6 +48,9 @@ class Pagination {
         ]);
     }
     public function getPages() {
+        if(empty($this->entityClass)) {
+            throw new \Exception("Vous n'avez pas spécifié l'entité sur laquelle vous devez paginer utiliser la méthode setEntityClass");
+        }
         // 1° Connaitre le total des enregistrements de la table
         $repo = $this->manager->getRepository($this->entityClass);
         $total = count($repo->findAll());

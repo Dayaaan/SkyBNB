@@ -1,4 +1,6 @@
-div.container {
+@import url('./bootstrap.min.css');
+
+div.container, div.container-fluid {
     margin-top: 20px;
 }
 div.ad-title {
@@ -15,6 +17,7 @@ div.ad-title .btn {
     font-size: 1.5em;
     line-height: 1.5em;
 }
+
 div.carousel-caption {
     text-shadow: 3px 3px 3px rgba(0,0,0,0,5);
 }
@@ -34,8 +37,9 @@ div.carousel-caption {
 }
 .avatar-micro {
     max-width: 25px;
-    max-height: 25px;
+    max-height: 25px;   
 }
+
 .datepicker table tr td.disabled, .datepicker table tr td.disabled:hover {
     color: firebrick !important;
 }
